@@ -12,6 +12,7 @@ Constraints
 -	Each character of program will be 'L', 'R' or '?' (quotes for clarity).
  
 Examples
+
 1)    	
 "LLLRLRRR"
 Returns: 3
