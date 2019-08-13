@@ -1,3 +1,6 @@
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+
+
 import java.util.Arrays;
 
 public class Program {
@@ -7,6 +10,7 @@ public class Program {
         System.out.println(doLeftRight( "??????")==6? "PASS":"FAIL");
         System.out.println(doLeftRight( "LL???RRRRRRR???")==11? "PASS":"FAIL");
         System.out.println(doLeftRight( "L?L?")==4? "PASS":"FAIL");
+        System.out.println(doLeftRight( "??L")==3? "PASS":"FAIL");
     }
     public static int doLeftRight(String input){
         int noOfQuesMark=0;
@@ -42,6 +46,11 @@ public class Program {
             }
             return maxx;
         }
+        int pos=0;
+        int max=0;
+        String regex = "(?<=(.))(?!\\1)";
+        String[] splits = input.split(regex);
         return 0;
     }
+
 }
