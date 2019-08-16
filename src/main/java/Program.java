@@ -3,7 +3,7 @@ public class Program {
         System.out.println(doLeftRight("LLLRLRRR") == 3 ? "PASS" : "FAIL");
         System.out.println(doLeftRight("R???L") == 4 ? "PASS" : "FAIL");
         System.out.println(doLeftRight("??????") == 6 ? "PASS" : "FAIL");
-        System.out.println(doLeftRight("LL???RRRRRRR???") == 13 ? "PASS" : "FAIL");
+        System.out.println(doLeftRight("LL???RRRRRRR???") == 11 ? "PASS" : "FAIL");
         System.out.println(doLeftRight("L?L?") == 4 ? "PASS" : "FAIL");
         System.out.println(doLeftRight("??L?L?") == 6 ? "PASS" : "FAIL");
     }
@@ -66,18 +66,7 @@ public class Program {
                     position=position-numberOfQ;
                 }
             }
-            if(previousMove==currentMove)
-            {
-                position=previousPosition+position;
-            }
-            else
-            {
-                previousPosition=Math.abs(previousPosition);
-                if(farthestMove<previousPosition)
-                {
-                    farthestMove=previousPosition;
-                }
-            }
+            position=position+previousPosition;
             if(farthestMove<Math.abs(position))
             {
                 farthestMove=Math.abs(position);
