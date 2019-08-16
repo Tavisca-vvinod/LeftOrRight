@@ -1,8 +1,3 @@
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
-
-
-import java.util.Arrays;
-
 public class Program {
     public static void main(String[] args) {
         System.out.println(doLeftRight( "LLLRLRRR")==3? "PASS":"FAIL");
@@ -13,38 +8,14 @@ public class Program {
         System.out.println(doLeftRight( "??L")==3? "PASS":"FAIL");
     }
     public static int doLeftRight(String input){
-        int noOfQuesMark=0;
-        for(char i : input.toCharArray())
-        {
-            if(i=='?')
-            {
-                noOfQuesMark++;
-            }
-        }
+        int noOfQuesMark=Features.QuestionMarkCounter(input);
         if(noOfQuesMark==input.length())
         {
             return noOfQuesMark;
         }
         if(noOfQuesMark==0)
         {
-            int pos=0;
-            int maxx=0;
-            for(char i : input.toCharArray())
-            {
-                if(i=='R')
-                {
-                    pos--;
-                }
-                else
-                {
-                    pos++;
-                }
-                if(maxx<pos)
-                {
-                    maxx=pos;
-                }
-            }
-            return maxx;
+            return (Features.NoQuestionMark(input));
         }
         int pos=0;
         int max=0;
