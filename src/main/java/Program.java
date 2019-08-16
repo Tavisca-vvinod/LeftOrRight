@@ -5,27 +5,22 @@ public class Program {
         System.out.println(doLeftRight("??????") == 6 ? "PASS" : "FAIL");
         System.out.println(doLeftRight("LL???RRRRRRR???") == 13 ? "PASS" : "FAIL");
         System.out.println(doLeftRight("L?L?") == 4 ? "PASS" : "FAIL");
+        System.out.println(doLeftRight("??L?L?") == 6 ? "PASS" : "FAIL");
     }
     public static int doLeftRight(String input){
-        int noOfQuesMark=Features.QuestionMarkCounter(input);
-        if(noOfQuesMark==input.length())
+        String[] splits = input.split("(?<=(.))(?!\\1)");
+        if(splits.length==1&&splits[0].charAt(0)=='?')
         {
-            return noOfQuesMark;
+            return splits[0].length();
         }
-        if(noOfQuesMark==0)
-        {
-            return (Features.NoQuestionMark(input));
-        }
-        return (calculate(input));
+        return (calculate(splits));
     }
-    public static int calculate(String input)
+    public static int calculate(String[] splits)
     {
         int pos=0;
         int max=0;
-        int prevPos=0;
-        String regex = "(?<=(.))(?!\\1)";
-        String[] splits = input.split(regex);
-        char prevSign=' ';
+        int prevPos;
+        char prevSign;
         char currentSign=' ';
         for(int i=0;i<splits.length;i++)
         {
@@ -45,65 +40,30 @@ public class Program {
             }
             if(string.charAt(0)=='?')
             {
+                int numberOfQ=string.length();
+                String matchGroup="";
                 if(i==0)
                 {
-                    int numberOfQ=string.length();
-                    if(splits[i+1].charAt(0)=='L')
-                    {
-                        currentSign='+';
-                        pos=pos+numberOfQ+splits[i+1].length();
-                        i++;
-                    }
-                    else if(splits[i+1].charAt(0)=='R')
-                    {
-                        currentSign='-';
-                        pos=pos-numberOfQ-splits[i+1].length();
-                        i++;
-                    }
+                    matchGroup=splits[i+1];
                 }
                 else if (i==splits.length-1)
                 {
-                    int numberOfQ=string.length();
-                    if(splits[i-1].charAt(0)=='L')
-                    {
-                        currentSign='+';
-                        pos=pos+numberOfQ;
-                    }
-                    else if(splits[i-1].charAt(0)=='R')
-                    {
-                        currentSign='-';
-                        pos=pos-numberOfQ;
-                    }
+
+                    matchGroup=splits[i-1];
                 }
                 else
                 {
-                    int numberOfQ=string.length();
-                    if(splits[i+1].length()>splits[i-1].length())
-                    {
-                        if(splits[i+1].charAt(0)=='L')
-                        {
-                            currentSign='+';
-                            pos=pos+numberOfQ;
-                        }
-                        else if(splits[i+1].charAt(0)=='R')
-                        {
-                            currentSign='-';
-                            pos=pos-numberOfQ;
-                        }
-                    }
-                    else
-                    {
-                        if(splits[i-1].charAt(0)=='L')
-                        {
-                            currentSign='+';
-                            pos=pos+numberOfQ;
-                        }
-                        else if(splits[i-1].charAt(0)=='R')
-                        {
-                            currentSign='-';
-                            pos=pos-numberOfQ;
-                        }
-                    }
+                    matchGroup= splits[i+1].length()>splits[i-1].length()? splits[i+1]:splits[i-1];
+                }
+                if(matchGroup.charAt(0)=='L')
+                {
+                    currentSign='+';
+                    pos=pos+numberOfQ;
+                }
+                else if(matchGroup.charAt(0)=='R')
+                {
+                    currentSign='-';
+                    pos=pos-numberOfQ;
                 }
             }
             if(prevSign==currentSign)
