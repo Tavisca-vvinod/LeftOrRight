@@ -13,30 +13,30 @@ public class Program {
         {
             return splits[0].length();
         }
-        return (calculate(splits));
+        return (findFarthestMove(splits));
     }
-    public static int calculate(String[] splits)
+    public static int findFarthestMove(String[] splits)
     {
-        int pos=0;
-        int max=0;
-        int prevPos;
-        char prevSign;
-        char currentSign=' ';
+        int position=0;
+        int farthestMove=0;
+        int previousPosition;
+        char previousMove;
+        char currentMove=' ';
         for(int i=0;i<splits.length;i++)
         {
-            prevPos=pos;
-            pos=0;
-            prevSign=currentSign;
+            previousPosition=position;
+            position=0;
+            previousMove=currentMove;
             String string=splits[i];
             if(string.charAt(0)=='L')
             {
-                currentSign='+';
-                pos=pos+string.length();
+                currentMove='L';
+                position=position+string.length();
             }
             if(string.charAt(0)=='R')
             {
-                currentSign='-';
-                pos=pos-string.length();
+                currentMove='R';
+                position=position-string.length();
             }
             if(string.charAt(0)=='?')
             {
@@ -57,32 +57,32 @@ public class Program {
                 }
                 if(matchGroup.charAt(0)=='L')
                 {
-                    currentSign='+';
-                    pos=pos+numberOfQ;
+                    currentMove='L';
+                    position=position+numberOfQ;
                 }
                 else if(matchGroup.charAt(0)=='R')
                 {
-                    currentSign='-';
-                    pos=pos-numberOfQ;
+                    currentMove='R';
+                    position=position-numberOfQ;
                 }
             }
-            if(prevSign==currentSign)
+            if(previousMove==currentMove)
             {
-                pos=prevPos+pos;
+                position=previousPosition+position;
             }
             else
             {
-                prevPos=Math.abs(prevPos);
-                if(max<prevPos)
+                previousPosition=Math.abs(previousPosition);
+                if(farthestMove<previousPosition)
                 {
-                    max=prevPos;
+                    farthestMove=previousPosition;
                 }
             }
-            if(max<Math.abs(pos))
+            if(farthestMove<Math.abs(position))
             {
-                max=Math.abs(pos);
+                farthestMove=Math.abs(position);
             }
         }
-        return max;
+        return farthestMove;
     }
 }
