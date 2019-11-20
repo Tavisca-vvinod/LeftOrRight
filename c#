@@ -1,0 +1,88 @@
+using System;
+using System.Collections.Generic;
+
+namespace ConsoleApp1
+{
+        class Programss
+        { 
+            public static int doLeftRight(String input)
+            { 
+                String[] splits = input.Split("(?<=(.))(?!\\1)");
+                if (splits.Length == 1 && splits[0][0] == '?')
+                {
+                    return splits[0].Length;
+                }
+                return (findFarthestMove(splits));
+            }
+            public static int findFarthestMove(String[] splits)
+            {
+                int position = 0;
+                int farthestMove = 0;
+                int previousPosition;
+                char previousMove;
+                char currentMove = ' ';
+                for (int i = 0; i < splits.Length; i++)
+                {
+                    previousPosition = position;
+                    position = 0;
+                    previousMove = currentMove;
+                    String stringss= splits[i];
+                    if (stringss[0] == 'L')
+                    {
+                        currentMove = 'L';
+                        position = position + stringss.Length;
+                    }
+                    if (stringss[0] == 'R')
+                    {
+                        currentMove = 'R';
+                        position = position - stringss.Length;
+                    }
+                    if (stringss[0] == '?')
+                    {
+                        int numberOfQ = stringss.Length;
+                        String matchGroup = "";
+                        if (i == 0)
+                        {
+                            matchGroup = splits[i + 1];
+                        }
+                        else if (i == splits.Length - 1)
+                        {
+
+                            matchGroup = splits[i - 1];
+                        }
+                        else
+                        {
+                            matchGroup = splits[i + 1].Length > splits[i - 1].Length ? splits[i + 1] : splits[i - 1];
+                        }
+                        if (matchGroup[0] == 'L')
+                        {
+                            currentMove = 'L';
+                            position = position + numberOfQ;
+                        }
+                        else if (matchGroup[0] == 'R')
+                        {
+                            currentMove = 'R';
+                            position = position - numberOfQ;
+                        }
+                    }
+                    position = position + previousPosition;
+                    if (farthestMove < Math.Abs(position))
+                    {
+                        farthestMove = Math.Abs(position);
+                    }
+                }
+                return farthestMove;
+            }
+        
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine(doLeftRight("LLLRLRRR") == 3 ? "PASS" : "FAIL");
+            Console.WriteLine(doLeftRight("R???L") == 4 ? "PASS" : "FAIL");
+            Console.WriteLine(doLeftRight("LL???RRRRRRR???") == 11 ? "PASS" : "FAIL");
+            Console.WriteLine(doLeftRight("L?L?") == 4 ? "PASS" : "FAIL");
+            Console.WriteLine(doLeftRight("??L?L?") == 6 ? "PASS" : "FAIL");
+            Console.ReadKey();
+        }
+    }
+}
